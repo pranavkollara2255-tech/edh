@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Be My Valentine 💘</title>
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+        font-family: Arial, sans-serif;
+        overflow: hidden;
+    }
+
+    .container {
+        text-align: center;
+        position: relative;
+    }
+
+    img {
+        width: 180px;
+        margin-bottom: 20px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+        animation: heartbeat 1.6s infinite;
+    }
+
+    @keyframes heartbeat {
+        0% { transform: scale(1); }
+        14% { transform: scale(1.15); }
+        28% { transform: scale(1); }
+        42% { transform: scale(1.15); }
+        70% { transform: scale(1); }
+        100% { transform: scale(1); }
+    }
+
+    h1 {
+        font-size: 2.3rem;
+        color: white;
+        margin-bottom: 35px;
+        text-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    button {
+        font-size: 1.2rem;
+        padding: 12px 28px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        position: relative;
+    }
+
+    #yes {
+        background-color: #4CAF50;
+        color: white;
+        margin-right: 20px;
+    }
+
+    #no {
+        background-color: #f44336;
+        color: white;
+        position: absolute;
+        transition: left 0.15s linear, top 0.15s linear;
+    }
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio id="bgMusic" loop>
+    <source src="romantic.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+    <!-- Change image name or URL -->
+    <img src="love.jpeg" alt="Valentine Image">
+
+    <h1>💖 Will you be my Valentine? 💖</h1>
+
+    <button id="yes" onclick="yesClicked()">Yes</button>
+    <button id="no">No</button>
+</div>
+
+<script>
+    const noBtn = document.getElementById("no");
+    const music = document.getElementById("bgMusic");
+
+    // Move NO button when cursor comes near
+    document.addEventListener("mousemove", (e) => {
+        const rect = noBtn.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const distance = Math.hypot(
+            e.clientX - centerX,
+            e.clientY - centerY
+        );
+
+        if (distance < 120) {
+            moveButton();
+        }
+    });
+
+    // Mobile support
+    noBtn.addEventListener("touchstart", moveButton);
+
+    function moveButton() {
+        const padding = 20;
+        const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+        const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+
+        let x = Math.random() * maxX;
+        let y = Math.random() * maxY;
+
+        const rect = noBtn.getBoundingClientRect();
+        if (Math.abs(x - rect.left) < 100) x += 120;
+        if (Math.abs(y - rect.top) < 80) y += 100;
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+    }
+
+    // Start music on first interaction
+    document.body.addEventListener("click", () => {
+        music.volume = 0.4;
+        music.play();
+    }, { once: true });
+
+    function yesClicked() {
+        music.volume = 0.6;
+        music.play();
+
+        document.body.innerHTML = `
+            <div style="text-align:center; color:white;">
+                <h1>😍 Yay! Happy Valentine’s Day! 💘</h1>
+                <p style="font-size:1.4rem;">You just made my heart happy ❤️</p>
+            </div>
+        `;
+    }
+</script>
+
+</body>
+</html>
